@@ -585,8 +585,8 @@ export default {
 
             mouseX = (vm.mouse.x - rect.left)*(1/ballArray[0].scale) - canvas.width/2;
             mouseY = (vm.mouse.y - rect.top )*(1/ballArray[0].scale) - canvas.height/2;
-            currentTouchX = (vm.currentTouchPos.x - rect.left - canvas.width/2)*(1/ballArray[0].scale);
-            currentTouchY = (vm.currentTouchPos.y - rect.top - canvas.height/2)*(1/ballArray[0].scale);
+            currentTouchX = (vm.currentTouchPos.x - rect.left)*(1/ballArray[0].scale) - canvas.width/2;
+            currentTouchY = (vm.currentTouchPos.y - rect.top)*(1/ballArray[0].scale) - canvas.height/2;
             // initialTouchX = (vm.initialTouchPos.x - rect.left - canvas.width/2)*(1/ballArray[0].scale);
             // initialTouchY = (vm.initialTouchPos.y - rect.top - canvas.height/2)*(1/ballArray[0].scale);
 
@@ -601,10 +601,10 @@ export default {
                 c.fill();
             }
 
-            c.beginPath();
-            c.arc(mouseX, mouseY, 20, 0, Math.PI * 2);
-            c.fillStyle = "black";
-            c.fill();
+            // c.beginPath();
+            // c.arc(mouseX, mouseY, 20, 0, Math.PI * 2);
+            // c.fillStyle = "black";
+            // c.fill();
             
             // c.beginPath();
             // c.arc(2316, 669, 500, 0, Math.PI * 2); 
