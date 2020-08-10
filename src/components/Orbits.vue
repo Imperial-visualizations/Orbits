@@ -87,7 +87,6 @@ export default {
 
 
         function resize(){
-            console.log(scale, canvas.width, parent.offsetWidth*(1/scale));
             canvas = document.querySelector('canvas');
             parent = document.getElementById('parent');
             rect = parent.getBoundingClientRect();
@@ -98,11 +97,11 @@ export default {
             //centre about x=0, y=0
             c.translate(canvas.width/2, canvas.height/2);
             
-            //setTimeout(resize, 100);
+            setTimeout(resize, 500);
         }
 
         resize();
-        setTimeout(resize, 200);
+        setTimeout(resize, 100);
          
          
 
@@ -574,14 +573,14 @@ export default {
                 }
                 
                 //bounding box
-                c.beginPath();
-                c.moveTo(-canvas.width*(1/ballArray[i].scale)/2, -canvas.height*(1/ballArray[i].scale)/2);
-                c.lineTo(canvas.width*(1/ballArray[i].scale)/2, -canvas.height*(1/ballArray[i].scale)/2);
-                c.lineTo(canvas.width*(1/ballArray[i].scale)/2, canvas.height*(1/ballArray[i].scale)/2);
-                c.lineTo(-canvas.width*(1/ballArray[i].scale)/2, canvas.height*(1/ballArray[i].scale)/2);
-                c.lineTo(-canvas.width*(1/ballArray[i].scale)/2, -canvas.height*(1/ballArray[i].scale)/2);
-                c.lineWidth = 1;
-                c.stroke();
+                // c.beginPath();
+                // c.moveTo(-canvas.width*(1/ballArray[i].scale)/2, -canvas.height*(1/ballArray[i].scale)/2);
+                // c.lineTo(canvas.width*(1/ballArray[i].scale)/2, -canvas.height*(1/ballArray[i].scale)/2);
+                // c.lineTo(canvas.width*(1/ballArray[i].scale)/2, canvas.height*(1/ballArray[i].scale)/2);
+                // c.lineTo(-canvas.width*(1/ballArray[i].scale)/2, canvas.height*(1/ballArray[i].scale)/2);
+                // c.lineTo(-canvas.width*(1/ballArray[i].scale)/2, -canvas.height*(1/ballArray[i].scale)/2);
+                // c.lineWidth = 1;
+                // c.stroke();
             }
 
             mouseX = (vm.mouse.x - rect.left)*(1/ballArray[0].scale) - canvas.width/2;
