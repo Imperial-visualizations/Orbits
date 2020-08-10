@@ -37,7 +37,7 @@ export default {
                 x: undefined,
                 y: undefined
             }
-        }
+        },
     },
     methods: {
         touchOn(event){
@@ -75,38 +75,34 @@ export default {
     },
     mounted(){
         let vm = this;
-        let canvas = null;
-        let parent = null;
-        let rect = null;
+        let canvas = document.querySelector('canvas');
+        let parent = document.getElementById('parent');
+        let rect = parent.getBoundingClientRect();
         let mouseX = null;
         let mouseY = null;
         let currentTouchX = null;
         let currentTouchY = null;
-        let c = null;
+        let c = canvas.getContext('2d');
+        let scale = 1;
 
 
         function resize(){
+            console.log(scale, canvas.width, parent.offsetWidth*(1/scale));
             canvas = document.querySelector('canvas');
             parent = document.getElementById('parent');
-            canvas.width = parent.offsetWidth;
-            canvas.height = parent.offsetHeight;
             rect = parent.getBoundingClientRect();
-
             
-            mouseX = vm.mouse.x - rect.left;
-            mouseY = vm.mouse.y - rect.top;
-            currentTouchX = vm.currentTouchPos.x - rect.right;
-            currentTouchY = vm.currentTouchPos.y - rect.top;
-        
-            c = canvas.getContext('2d');
+            canvas.width = parent.offsetWidth*(1/scale);
+            canvas.height = parent.offsetHeight*(1/scale);
+            
             //centre about x=0, y=0
             c.translate(canvas.width/2, canvas.height/2);
             
-            setTimeout(resize, 100);
-
+            //setTimeout(resize, 100);
         }
 
         resize();
+        setTimeout(resize, 200);
          
          
 
@@ -258,11 +254,12 @@ export default {
 
                     this.pathEnergies;
                 }
-
+                
                 //Call scaling method
                 for(let i = 0; i < 5; i++){  
                     this.scaleCanvas();
                 }
+                resize();
                 
                 newPath = false;
                 this.pathEnergies();
@@ -325,17 +322,22 @@ export default {
 
                 if(maxX < canvas.width*(1/this.scale)/4 && maxY < canvas.height*(1/this.scale)/4 && minX > -canvas.width*(1/this.scale)/4 && minY > -canvas.height*(1/this.scale)/4){
                     console.log('downsize', maxX, minX, canvas.width*(1/this.scale)/4, maxY, minY, canvas.height*(1/this.scale)/4);
+                    //unscale
                     c.scale((1/this.scale), (1/this.scale));
                     // c.translate(canvas.width/4, canvas.height/4);
                     this.scale = this.scale*2;
-                    c.scale(this.scale, this.scale);
+                    //c.scale(this.scale, this.scale); rescale done by resize()
                 }else if(maxX > canvas.width*(1/this.scale)/2 || maxY > canvas.height*(1/this.scale)/2 || minX < -canvas.width*(1/this.scale)/2 || minY < -canvas.height*(1/this.scale)/2){
                     console.log('upsize', maxX, minX, canvas.width*(1/this.scale)/4, maxY, minY, canvas.height*(1/this.scale)/4);
+                    //unscale
                     c.scale((1/this.scale), (1/this.scale));
                     // c.translate(canvas.width/4, canvas.height/4);
                     this.scale = this.scale/2;
-                    c.scale(this.scale, this.scale);
+                    //c.scale(this.scale, this.scale); rescale done by resize()
                 }
+                
+                scale = this.scale;
+                resize();
             }
 
             this.draw = function() {
@@ -562,8 +564,14 @@ export default {
         function animate() {
             requestAnimationFrame(animate);
 
-            for (let i = 0; i < ballArray.length; i++){    
+            for (let i = 0; i < ballArray.length; i++){
+
+                // If statement fixes bug of rect not fully clearing when scale small
+                if(1/ballArray[i].scale >= 1){
                 c.clearRect(-canvas.width*(1/ballArray[i].scale)/2, -canvas.height*(1/ballArray[i].scale)/2, canvas.width*(1/ballArray[i].scale), canvas.height*(1/ballArray[i].scale));
+                } else{
+                    c.clearRect(-canvas.width/2, -canvas.height/2, canvas.width, canvas.height);
+                }
                 
                 //bounding box
                 c.beginPath();
@@ -576,8 +584,8 @@ export default {
                 c.stroke();
             }
 
-            mouseX = (vm.mouse.x - rect.left - canvas.width/2)*(1/ballArray[0].scale);
-            mouseY = (vm.mouse.y - rect.top - canvas.height/2)*(1/ballArray[0].scale);
+            mouseX = (vm.mouse.x - rect.left)*(1/ballArray[0].scale) - canvas.width/2;
+            mouseY = (vm.mouse.y - rect.top )*(1/ballArray[0].scale) - canvas.height/2;
             currentTouchX = (vm.currentTouchPos.x - rect.left - canvas.width/2)*(1/ballArray[0].scale);
             currentTouchY = (vm.currentTouchPos.y - rect.top - canvas.height/2)*(1/ballArray[0].scale);
             // initialTouchX = (vm.initialTouchPos.x - rect.left - canvas.width/2)*(1/ballArray[0].scale);
