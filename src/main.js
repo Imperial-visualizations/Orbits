@@ -5,6 +5,7 @@ import '@impvis/components/dist/impvis-components.css';
 
 Vue.use(ImpVis);
 Vue.config.productionTip = false;
+Vue.config.silent = true;
 
 //export const bus = new Vue();//bus for title bar to talk to guidance
 

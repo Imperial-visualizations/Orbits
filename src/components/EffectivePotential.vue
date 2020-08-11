@@ -28,8 +28,8 @@ export default {
 
         let minX = 0;
         let maxX = 100;
-        let minY = -0.1;
-        let maxY = 0.1;
+        let minY = -1;
+        let maxY = 1;
         let plotWidth = 600;
         let plotHeight = 200;
 
@@ -110,7 +110,7 @@ export default {
             requestAnimationFrame(redraw);
 
             if(vm.redraw && vm.energies.length ){
-                console.log('redrawing', vm.energies[1].length);
+                console.log('redrawing', vm.energies[1]);
                 // plotSvg.selectAll("circle")
                 //         .data([[50, 50]])
                 //         .transition()
@@ -119,16 +119,20 @@ export default {
                 //         .attr("cy", function(d) { return yScaler(d[1]);})
                 //         .ease(d3.easeLinear)
 
-                let newAngMom = [];
-                for(let i = 0; i < vm.energies[1].length; i++){
-                    newAngMom.push([i, vm.energies[1][i]]);
+                let radialGravPot = [];
+                let radialAngMom = [];
+                let radialEffPot = [];
+                for(let i = 0; i < vm.energies[2].length; i++){
+                    radialGravPot.push([vm.energies[0][i], vm.energies[2][i]]);
+                    radialAngMom.push([vm.energies[0][i], vm.energies[1][i]]);
+                    radialEffPot.push([vm.energies[0][i], vm.energies[3][i]]);
                 }
 
                 plotSvg.selectAll("path")
-                        .data([newAngMom])
+                        .data([radialGravPot])
                         .attr("transform", "translate(0,0)")
                         .attr("class", "line")
-                        .attr("stroke", "magenta")
+                        .attr("stroke", "blue")
                         .attr("stroke-width", 2)
                         .attr("fill", "none")
                         .attr("d", d3.line()
@@ -136,8 +140,21 @@ export default {
                                         .y(function(d) { return yScaler(d[1]); })
                                         .curve(d3.curveMonotoneX)
                     )
+
+                // plotSvg.selectAll("path")
+                //         .data([radialAngMom])
+                //         .attr("transform", "translate(0,0)")
+                //         .attr("class", "line")
+                //         .attr("stroke", "orange")
+                //         .attr("stroke-width", 2)
+                //         .attr("fill", "none")
+                //         .attr("d", d3.line()
+                //                         .x(function(d) { return xScaler(d[0]); })
+                //                         .y(function(d) { return yScaler(d[1]); })
+                //                         .curve(d3.curveMonotoneX)
+                //     )
                 
-                rescale(0, vm.energies[1].length, Math.min(...vm.energies[1]), Math.max(...vm.energies[1]));
+                rescale(0, Math.max(...vm.energies[0]), Math.min(...vm.energies[2]), Math.max(...vm.energies[2]));
 
                 vm.redraw = false;
             }
