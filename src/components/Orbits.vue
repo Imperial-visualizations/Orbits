@@ -164,8 +164,8 @@ export default {
 
                     this.dist = Math.pow(Math.pow(this.pathCoords[i][0]-massCentres[0][0] , 2) + Math.pow(this.pathCoords[i][1]-massCentres[0][1], 2), 0.5);
                     this.radiuses.push(this.dist);
-                    this.pathGravPot.push(-initialVel*massCentres[0][2]/(this.dist*4*Math.PI));
-                    this.pathAngMom.push(Math.pow(Math.pow(this.pathVels[i][0],2) + Math.pow(this.pathVels[i][1],2),0.5) * this.dist /massCentres[0][2]);
+                    this.pathGravPot.push(-initialVel*massCentres[0][2]/(this.dist));
+                    this.pathAngMom.push(Math.pow(Math.pow(this.pathVels[i][0],2) + Math.pow(this.pathVels[i][1],2),0.5) /massCentres[0][2]);
                     this.pathEffPot.push(this.pathGravPot[i] + this.pathAngMom[i]);
                 }
 
