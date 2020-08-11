@@ -13,13 +13,16 @@
         <iv-toggle-hotspot id="iv-fixed-hotspot-bottom" position="bottom" title="Effective Potential">
             <!-- <EffPot ref="effPlot" /> -->
         </iv-toggle-hotspot>
-        <!-- <iv-fixed-hotspot id="iv-fixed-hotspot-left" position="left" title="LEFT"></iv-fixed-hotspot> -->
+        <iv-fixed-hotspot id="iv-fixed-hotspot-topright" position="topright" title="PlayackControlls" style="height: 40%">
+          <label style="padding-top: 3%">Playback Speed</label>
+          <iv-slider style="padding-top: 5%;" min=0 max=10 initVal=1 step=1 @sliderChanged="playSpeed"></iv-slider>
+        </iv-fixed-hotspot>
         <!-- <iv-fixed-hotspot id="iv-fixed-hotspot-right" position="right" title="RIGHT"></iv-fixed-hotspot> -->
         
       </template>
 
-      <template #main-stage>
-        <Orbits @energies="updatePlot"  @onresize="updateSize" />
+      <template #main-stage> 
+        <Orbits @energies="updatePlot"  @onresize="updateSize" v-bind:animationSpeed="animationSpeed"/>
         <!-- <EffPot ref="effPlot" /> -->
       </template>
 
@@ -75,7 +78,16 @@ export default {
     },
     updateSize(){
       console.log('resize');
+    },
+    playSpeed(e){
+      console.log('slider update', this.animationSpeed);
+      this.animationSpeed = e;
     }
+  },
+  props:{
+    animationSpeed: {
+      default: 1
+    },
   }
 }
 </script>
