@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div id="potentialPlot" style="height: 50vh;" >
+        <div id="potentialPlot" >
         </div>
     </div>
 </template>
@@ -30,8 +30,11 @@ export default {
         let maxX = 100;
         let minY = -0.1;
         let maxY = 0.1;
-        let plotWidth = document.getElementById('potentialPlot').offsetWidth;
-        let plotHeight = document.getElementById('potentialPlot').offsetHeight;
+        let plotWidth = 600;
+        let plotHeight = 200;
+
+        // let plotWidth = document.getElementById('potentialPlot').offsetWidth;
+        // let plotHeight = document.getElementById('potentialPlot').offsetHeight;
         let axWidth = plotWidth * 0.8;
         let axHeight = plotHeight * 0.8;
 
@@ -106,7 +109,8 @@ export default {
         function redraw(){
             requestAnimationFrame(redraw);
 
-            if(vm.redraw){
+            if(vm.redraw && vm.energies.length ){
+                console.log('redrawing', vm.energies[1].length);
                 // plotSvg.selectAll("circle")
                 //         .data([[50, 50]])
                 //         .transition()
