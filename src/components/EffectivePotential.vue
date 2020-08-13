@@ -12,13 +12,13 @@ import Plotly from 'plotly.js';
 export default {
     name:'iv-eff-pot',
     props: {
-        energies: {default: []},
+        pathVals: {default: []},
         redraw: {default: true},
     },
     methods:{
-        updatePlot(energies){
+        updatePlot(pathVals){
             console.log('updatePlot EffPot');
-            this.energies = energies;
+            this.pathVals = pathVals;
             this.redraw = true;
         }
     },
@@ -32,8 +32,8 @@ export default {
         //find energy of orbit
         function findE(){
             // E = Ueff + radial KE
-            let rMag = Math.pow(Math.pow(vm.energies[0][0], 2) + Math.pow(vm.energies[0][1],2),0.5);
-            let vMag = Math.pow(Math.pow(vm.energies[1][0], 2) + Math.pow(vm.energies[1][1],2),0.5);
+            let rMag = Math.pow(Math.pow(vm.pathVals[0][0], 2) + Math.pow(vm.pathVals[0][1],2),0.5);
+            let vMag = Math.pow(Math.pow(vm.pathVals[1][0], 2) + Math.pow(vm.pathVals[1][1],2),0.5);
 
             let E = effectivePotential(rMag) + 0.5*Math.pow(vMag,2);
             return E
@@ -41,9 +41,9 @@ export default {
 
         //r should be scalar
         function feltPotential(r){
-            let vMag = Math.pow(Math.pow(vm.energies[1][0],2) + Math.pow(vm.energies[1][1],2), 0.5);
-            let rMag = Math.pow(Math.pow(vm.energies[0][0],2) + Math.pow(vm.energies[0][1],2), 0.5); //Current position for constant L calculation
-            let aMag = Math.pow(Math.pow(vm.energies[0][0] + vm.energies[1][0],2) + Math.pow(vm.energies[0][1] + vm.energies[1][1],2), 0.5);
+            let vMag = Math.pow(Math.pow(vm.pathVals[1][0],2) + Math.pow(vm.pathVals[1][1],2), 0.5);
+            let rMag = Math.pow(Math.pow(vm.pathVals[0][0],2) + Math.pow(vm.pathVals[0][1],2), 0.5); //Current position for constant L calculation
+            let aMag = Math.pow(Math.pow(vm.pathVals[0][0] + vm.pathVals[1][0],2) + Math.pow(vm.pathVals[0][1] + vm.pathVals[1][1],2), 0.5);
             let theta = Math.acos((Math.pow(rMag,2) + Math.pow(vMag,2) - Math.pow(aMag,2))/(2*rMag*vMag));
             
             //console.log(vMag, rMag, aMag, theta);
@@ -63,10 +63,18 @@ export default {
             return feltPotential(r) + realPotential(r);
         };
 
+        //finds min and max of potentials at minimum radius of orbit (for reasonable plotting)
+        function findYRange(){
+            let minR = vm.pathVals[3];
+            let yMin = Math.min(realPotential(minR), feltPotential(minR));
+            let yMax = Math.max(realPotential(minR), feltPotential(minR));
+            return [yMin*1.5, yMax];
+        }
+
         function redraw(){
             requestAnimationFrame(redraw);
 
-            if(vm.redraw && vm.energies.length){
+            if(vm.redraw && vm.pathVals.length){
                 
                 let rVals = [];
                 let Ueff = [];
@@ -74,8 +82,11 @@ export default {
                 let Ufelt = [];
                 let EnergyY = [];
                 let Energy = findE();
+                
+                plotRadius = vm.pathVals[2];
+                let stepSize = plotRadius/100;
 
-                for(let r = 0.1; r < plotRadius; r+= 0.01){
+                for(let r = 0.1; r < plotRadius; r+= stepSize){
                     rVals.push(r);
                     Ueff.push(effectivePotential(r));
                     U.push(realPotential(r));
@@ -87,21 +98,21 @@ export default {
                 let trace1 = {
                 x: rVals,
                 y: Ueff,
-                type: 'scatter',
+                type: 'lines',
                 name: 'Eff Pot',
                 };
 
                 let trace2 = {
                 x: rVals,
                 y: U,
-                type: 'scatter',
+                type: 'lines',
                 name: 'Potential',
                 };
 
                 let trace3 = {
                 x: rVals,
                 y: Ufelt,
-                type: 'scatter',
+                type: 'lines',
                 name: 'Ang Mom',
                 };
 
@@ -116,7 +127,7 @@ export default {
 
                 Plotly.newPlot('potentialPlot', data, {
                 xaxis: {range: [0, plotRadius]},
-                yaxis: {range: [-10, 2]}
+                yaxis: {range: findYRange()}
                 })
 
 

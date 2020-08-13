@@ -257,7 +257,7 @@ export default {
                     //this.pathEnergies;
                 }
 
-                vm.$emit('energies', [currentPos, currentVel]);
+                
                 
                 //Call scaling method
                 for(let i = 0; i < 5; i++){  
@@ -266,7 +266,23 @@ export default {
                 resize();
                 
                 newPath = false;
-                this.pathEnergies();
+
+
+                //Find max radius of path
+                let maxRadius = 0;
+                let minRadius = 10000000;
+                for(let i = 0; i <this.pathCoords.length; i++){
+                    let dist = Math.pow(Math.pow(this.pathCoords[i][0],2)+Math.pow(this.pathCoords[i][1],2),0.5);
+                    if(dist > maxRadius){
+                        maxRadius = dist;
+                    }
+                    if(dist < minRadius){
+                        minRadius = dist;
+                    }
+                }
+
+                vm.$emit('path-update', [currentPos, currentVel, maxRadius, minRadius]);
+                //this.pathEnergies();
             }
 
             this.scaleCanvas = function() {

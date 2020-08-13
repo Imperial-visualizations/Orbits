@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <iv-title-bar />
+    <iv-title-bar>Orbits</iv-title-bar>
     <iv-visualisation>
       <template #hotspots>
         <iv-pane position="left" format="full"/>
@@ -22,7 +22,7 @@
       </template>
 
       <template #main-stage> 
-        <Orbits @energies="updatePlot"  @onresize="updateSize" v-bind:animationSpeed="animationSpeed"/>
+        <Orbits @path-update="updatePlot"  @onresize="updateSize" v-bind:animationSpeed="animationSpeed"/>
         <!-- <EffPot ref="effPlot" /> -->
       </template>
 
