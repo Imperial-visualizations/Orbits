@@ -165,15 +165,15 @@ export default {
                     this.dist = Math.pow(Math.pow(this.pathCoords[i][0]-massCentres[0][0] , 2) + Math.pow(this.pathCoords[i][1]-massCentres[0][1], 2), 0.5);
                     this.radiuses.push(this.dist);
                     this.pathGravPot.push(-initialVel*massCentres[0][2]/(this.dist));
-                    this.pathAngMom.push(Math.pow(Math.pow(this.pathVels[i][0],2) + Math.pow(this.pathVels[i][1],2),0.5) /massCentres[0][2]);
+                    this.pathAngMom.push(Math.pow((Math.pow(this.pathVels[i][0],2) + Math.pow(this.pathVels[i][1],2)),0.5)/this.dist);
                     this.pathEffPot.push(this.pathGravPot[i] + this.pathAngMom[i]);
                 }
 
                 this.totE = 0.5*Math.pow(this.pathAngMom[0] ,2) + this.pathGravPot[0];
                 console.log('total energy = ',this.totE);
                 //this.totE = 0.5*(Math.pow(this.dx,2) + Math.pow(this.dy,2)) + massCentres[i][2]*Math.abs(this.dist, -1);
-                vm.$emit('energies', [this.radiuses, this.pathAngMom, this.pathGravPot, this.pathEffPot,this.totE]);
-                console.log('emitted');
+                //vm.$emit('energies', [this.radiuses, this.pathAngMom, this.pathGravPot, this.pathEffPot,this.totE]);
+                //console.log('emitted');
                 
             }
 
@@ -254,8 +254,10 @@ export default {
                         console.log('reverse');
                     }
 
-                    this.pathEnergies;
+                    //this.pathEnergies;
                 }
+
+                vm.$emit('energies', [currentPos, currentVel]);
                 
                 //Call scaling method
                 for(let i = 0; i < 5; i++){  
