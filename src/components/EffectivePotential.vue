@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div id="potentialPlot" >
+        <div id="potentialPlot" style="height: 35vh">
         </div>
     </div>
 </template>
@@ -72,7 +72,7 @@ export default {
             let minR = vm.pathVals[3];
             let yMin = Math.min(realPotential(minR), feltPotential(minR));
             let yMax = Math.max(realPotential(minR), feltPotential(minR));
-            return [yMin*1.5, yMax];
+            return [yMin, yMax];
         }
 
         function redraw(){
@@ -134,6 +134,11 @@ export default {
                 xaxis: {range: [0, plotRadius],
                 title: 'Radius',},
                 yaxis: {range: findYRange()},
+                margin: {
+                    t: 10,
+                    l: 20,
+                    b: 50,
+                }
                 })
 
 
