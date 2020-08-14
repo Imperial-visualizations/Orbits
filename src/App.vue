@@ -22,7 +22,7 @@
       </template>
 
       <template #main-stage> 
-        <Orbits @path-update="updatePlot"  @onresize="updateSize" v-bind:animationSpeed="animationSpeed"/>
+        <Orbits @path-update="updatePlot" @position-update="updatePosition" @onresize="updateSize" v-bind:animationSpeed="animationSpeed"/>
         <!-- <EffPot ref="effPlot" /> -->
       </template>
 
@@ -73,7 +73,12 @@ export default {
   },
   methods:{
     updatePlot(energies){
+      //Pass through event to effPlot
       this.$refs.effPlot.updatePlot(energies);     
+    },
+    updatePosition(pos){
+      //Pass through event to effPlot
+      this.$refs.effPlot.updatePosition(pos);
     },
     updateSize(){
       console.log('resize');

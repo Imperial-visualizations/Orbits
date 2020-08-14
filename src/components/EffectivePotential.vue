@@ -14,12 +14,16 @@ export default {
     props: {
         pathVals: {default: []},
         redraw: {default: true},
+        currentRadius: {default: 0},
     },
     methods:{
         updatePlot(pathVals){
             console.log('updatePlot EffPot');
             this.pathVals = pathVals;
             this.redraw = true;
+        },
+        updatePosition(pos){
+            this.currentRadius = Math.pow(Math.pow(pos[0], 2) + Math.pow(pos[1], 2), 0.5);
         }
     },
     mounted(){
@@ -36,6 +40,7 @@ export default {
             let vMag = Math.pow(Math.pow(vm.pathVals[1][0], 2) + Math.pow(vm.pathVals[1][1],2),0.5);
 
             let E = effectivePotential(rMag) + 0.5*Math.pow(vMag,2);
+            console.log('energy = ', E);
             return E
         };
 
@@ -74,6 +79,7 @@ export default {
         function redraw(){
             requestAnimationFrame(redraw);
 
+            //update lines when 
             if(vm.redraw && vm.pathVals.length){
                 
                 let rVals = [];
@@ -84,7 +90,7 @@ export default {
                 let Energy = findE();
                 
                 plotRadius = vm.pathVals[2];
-                let stepSize = plotRadius/100;
+                let stepSize = plotRadius/200;
 
                 for(let r = 0.1; r < plotRadius; r+= stepSize){
                     rVals.push(r);
@@ -126,13 +132,31 @@ export default {
                 let data = [totE, trace1, trace2, trace3];
 
                 Plotly.newPlot('potentialPlot', data, {
-                xaxis: {range: [0, plotRadius]},
-                yaxis: {range: findYRange()}
+                xaxis: {range: [0, plotRadius],
+                title: 'Radius',},
+                yaxis: {range: findYRange()},
                 })
 
 
                 vm.redraw = false;
             }
+
+            let marker = {
+                x:[vm.currentRadius],
+                y:[effectivePotential(vm.currentRadius)],
+                type:"markers",
+                name:"Current Ueff"
+
+            };
+
+            Plotly.animate('potentialPlot',
+                {data: [marker]},
+                {
+                    fromcurrent: true,
+                    transition: {duration: 0},
+                    frame: {duration: 0, redraw: false}
+                }
+            );
         }
 
         redraw();

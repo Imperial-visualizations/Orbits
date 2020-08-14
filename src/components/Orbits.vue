@@ -490,6 +490,7 @@ export default {
                     this.dx = this.pathVels[this.pathIndex][0];
                     this.dy = this.pathVels[this.pathIndex][1];
                     this.pathIndex += vm.animationSpeed;
+                    vm.$emit('position-update', [this.x, this.y]);
                 }
                 
                 if(vm.velocitySelect && Math.pow((Math.pow((mouseX-this.x),2) + Math.pow((mouseY-this.y),2)),1/2) < this.radius*1.5 && this.timeSinceClick > 20){
