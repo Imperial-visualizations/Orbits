@@ -36,9 +36,10 @@ export default {
         function findE(){
             // E = Ueff + radial KE
             let rMag = Math.pow(Math.pow(vm.pathVals[0][0], 2) + Math.pow(vm.pathVals[0][1],2),0.5);
-            let vMag = Math.pow(Math.pow(vm.pathVals[1][0], 2) + Math.pow(vm.pathVals[1][1],2),0.5);
+            //dot product of coordinates and velocity, divided by magnitude of radial position vector, to give magnitude of radial velocity
+            let radialVMag = (vm.pathVals[0][0]*vm.pathVals[1][0] + vm.pathVals[0][1]*vm.pathVals[1][1])/rMag; //Math.pow(Math.pow(vm.pathVals[1][0], 2) + Math.pow(vm.pathVals[1][1],2),0.5);
 
-            let E = effectivePotential(rMag) + 0.5*Math.pow(vMag,2);
+            let E = effectivePotential(rMag) + 0.5*Math.pow(radialVMag,2);
             console.log('energy = ', E);
             return E
         };
@@ -138,7 +139,9 @@ export default {
                     t: 10,
                     l: 20,
                     b: 50,
-                }
+                },
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                paper_bgcolor: 'rgba(0,0,0,0)',
                 })
 
 

@@ -4,7 +4,6 @@
     <iv-visualisation>
       <template #hotspots>
         <iv-pane position="left" format="full"/>
-        <iv-pane position="right" format="overlay" >
             
         </iv-pane>
         <!-- <iv-toggle-hotspot id="iv-toggle-hotspot-bottomleft" position="bottomleft" title="BOTTOM LEFT"></iv-toggle-hotspot> -->
@@ -13,7 +12,7 @@
         <iv-toggle-hotspot id="iv-fixed-hotspot-bottom" position="bottom" title="Effective Potential">
             <EffPot ref="effPlot" />
         </iv-toggle-hotspot>
-        <iv-fixed-hotspot id="iv-fixed-hotspot-topright" position="topright" title="PlayackControlls" style="height: 40%">
+        <iv-fixed-hotspot id="iv-fixed-hotspot-topright" position="topright" title="PlayackControls" style="height: 40%;">
           <label style="padding-top: 3%">Playback Speed</label>
           <iv-slider style="padding-top: 5%;" min=0 max=15 initVal=1 step=1 @sliderChanged="playSpeed"></iv-slider>
         </iv-fixed-hotspot>
