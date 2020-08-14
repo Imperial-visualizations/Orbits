@@ -271,16 +271,29 @@ export default {
                 //Find max radius of path
                 let maxRadius = 0;
                 let minRadius = 10000000;
-                for(let i = 0; i <this.pathCoords.length; i++){
-                    let dist = Math.pow(Math.pow(this.pathCoords[i][0],2)+Math.pow(this.pathCoords[i][1],2),0.5);
-                    if(dist > maxRadius){
-                        maxRadius = dist;
+                
+                if(this.newCoords.length > 0){
+                    for(let i = 0; i <this.newCoords.length; i++){
+                        let dist = Math.pow(Math.pow(this.newCoords[i][0],2)+Math.pow(this.newCoords[i][1],2),0.5);
+                        if(dist > maxRadius){
+                            maxRadius = dist;
+                        }
+                        if(dist < minRadius){
+                            minRadius = dist;
+                        }
                     }
-                    if(dist < minRadius){
-                        minRadius = dist;
+                } else {
+                    for(let i = 0; i <this.pathCoords.length; i++){
+                        let dist = Math.pow(Math.pow(this.pathCoords[i][0],2)+Math.pow(this.pathCoords[i][1],2),0.5);
+                        if(dist > maxRadius){
+                            maxRadius = dist;
+                        }
+                        if(dist < minRadius){
+                            minRadius = dist;
+                        }
                     }
                 }
-
+            
                 vm.$emit('path-update', [currentPos, currentVel, maxRadius, minRadius]);
                 //this.pathEnergies();
             }
@@ -551,7 +564,7 @@ export default {
                     newPath = true;
                     this.newCoords = [];
                     this.newVels = [];
-                    this.path(this.newdx, this.newdy);
+                    this.path(this.newdx, this.newdy);;
 
                     if(this.newCoords.length > 0){
                         this.pathCoords = this.newCoords;

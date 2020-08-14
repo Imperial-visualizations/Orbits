@@ -18,7 +18,6 @@ export default {
     },
     methods:{
         updatePlot(pathVals){
-            console.log('updatePlot EffPot');
             this.pathVals = pathVals;
             this.redraw = true;
         },
@@ -80,7 +79,7 @@ export default {
             requestAnimationFrame(redraw);
 
             //update lines when 
-            if(vm.redraw && vm.pathVals.length){
+            if(vm.redraw && plotRadius !== vm.pathVals[2]){
                 
                 let rVals = [];
                 let Ueff = [];
