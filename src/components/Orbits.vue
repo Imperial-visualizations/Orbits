@@ -43,7 +43,7 @@ export default {
         touchOn(event){
             this.initialTouchPos.x = event.touches[0].pageX;
             this.initialTouchPos.y = event.touches[0].pageY;
-            console.log('touchOn');
+            //console.log('touchOn');
         },
         touchOff(){
             this.touchSelect = false;
@@ -51,7 +51,7 @@ export default {
             this.currentTouchPos.y = undefined;
             this.initialTouchPos.x = undefined;
             this.initialTouchPos.y = undefined;
-            console.log('touchOff');
+            //console.log('touchOff');
         },
         touchChange(event){
             this.touchSelect = true;
@@ -152,31 +152,6 @@ export default {
                 this.dy = dy;
             }
 
-            this.pathEnergies = function(){
-                this.pathGravPot = [];
-                this.pathAngMom = [];
-                this.pathEffPot = [];
-                this.radiuses = [];
-                this.totE = 0;
-
-                for(let i = 0; i < this.pathCoords.length; i++){
-                    // Taking mass of orbiting object as 1
-
-                    this.dist = Math.pow(Math.pow(this.pathCoords[i][0]-massCentres[0][0] , 2) + Math.pow(this.pathCoords[i][1]-massCentres[0][1], 2), 0.5);
-                    this.radiuses.push(this.dist);
-                    this.pathGravPot.push(-initialVel*massCentres[0][2]/(this.dist));
-                    this.pathAngMom.push(Math.pow((Math.pow(this.pathVels[i][0],2) + Math.pow(this.pathVels[i][1],2)),0.5)/this.dist);
-                    this.pathEffPot.push(this.pathGravPot[i] + this.pathAngMom[i]);
-                }
-
-                this.totE = 0.5*Math.pow(this.pathAngMom[0] ,2) + this.pathGravPot[0];
-                console.log('total energy = ',this.totE);
-                //this.totE = 0.5*(Math.pow(this.dx,2) + Math.pow(this.dy,2)) + massCentres[i][2]*Math.abs(this.dist, -1);
-                //vm.$emit('energies', [this.radiuses, this.pathAngMom, this.pathGravPot, this.pathEffPot,this.totE]);
-                //console.log('emitted');
-                
-            }
-
             this.path = function(dx, dy)  {
                 let currentPos = [this.x, this.y];
                 let currentVel = [this.dx, this.dy];
@@ -254,7 +229,6 @@ export default {
                         console.log('reverse');
                     }
 
-                    //this.pathEnergies;
                 }
 
                 
@@ -295,7 +269,6 @@ export default {
                 }
             
                 vm.$emit('path-update', [currentPos, currentVel, maxRadius, minRadius]);
-                //this.pathEnergies();
             }
 
             this.scaleCanvas = function() {
@@ -354,14 +327,14 @@ export default {
                 }
 
                 if(maxX < canvas.width*(1/this.scale)/4 && maxY < canvas.height*(1/this.scale)/4 && minX > -canvas.width*(1/this.scale)/4 && minY > -canvas.height*(1/this.scale)/4){
-                    console.log('downsize', maxX, minX, canvas.width*(1/this.scale)/4, maxY, minY, canvas.height*(1/this.scale)/4);
+                    //console.log('downsize', maxX, minX, canvas.width*(1/this.scale)/4, maxY, minY, canvas.height*(1/this.scale)/4);
                     //unscale
                     c.scale((1/this.scale), (1/this.scale));
                     // c.translate(canvas.width/4, canvas.height/4);
                     this.scale = this.scale*2;
                     //c.scale(this.scale, this.scale); rescale done by resize()
                 }else if(maxX > canvas.width*(1/this.scale)/2 || maxY > canvas.height*(1/this.scale)/2 || minX < -canvas.width*(1/this.scale)/2 || minY < -canvas.height*(1/this.scale)/2){
-                    console.log('upsize', maxX, minX, canvas.width*(1/this.scale)/4, maxY, minY, canvas.height*(1/this.scale)/4);
+                    //console.log('upsize', maxX, minX, canvas.width*(1/this.scale)/4, maxY, minY, canvas.height*(1/this.scale)/4);
                     //unscale
                     c.scale((1/this.scale), (1/this.scale));
                     // c.translate(canvas.width/4, canvas.height/4);
