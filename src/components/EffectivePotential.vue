@@ -152,7 +152,11 @@ export default {
                 x:[vm.currentRadius],
                 y:[effectivePotential(vm.currentRadius)],
                 type:"markers",
-                name:"Current Ueff"
+                name:"Current Ueff",
+                marker:{
+                    color: "rgb(0,0,255)",
+                    size: 10,
+                }
 
             };
 

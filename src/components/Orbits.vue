@@ -97,7 +97,7 @@ export default {
             //centre about x=0, y=0
             c.translate(canvas.width/2, canvas.height/2);
             
-            setTimeout(resize, 500);
+            setTimeout(resize, 100);
         }
 
         resize();
@@ -563,7 +563,7 @@ export default {
         let massCentres = [[0, 0 , 100]];
         let initialVel = 1;
 
-        ballArray.push(new Ball(canvas.width/3, canvas.height/3, 5, undefined, undefined));
+        ballArray.push(new Ball(canvas.width/5, canvas.height/5, 5, undefined, undefined));
         for(let i = 0; i < ballArray.length; i++){
             ballArray[i].path();
         }
