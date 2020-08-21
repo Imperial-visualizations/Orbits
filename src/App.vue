@@ -1,9 +1,9 @@
 <template>
-  <div id="app">
+  <div id="app" style="overflow: hidden;">
     <iv-title-bar>Orbits</iv-title-bar>
     <iv-visualisation>
       <template #hotspots>
-        <iv-pane position="left" format="push" width=500>
+        <iv-pane position="left" format="push" width=500 style="overflow: scroll;">
             <hr style="margin-top: 0" >
             <h2 class="main-text">Orbit Energy Regimes</h2>
             <hr>
@@ -47,7 +47,7 @@
         <!-- <iv-fixed-hotspot id="iv-fixed-hotspot-right" position="right" title="RIGHT"></iv-fixed-hotspot> -->
         
       </template>
-      
+
       <Orbits @path-update="updatePlot" @position-update="updatePosition" @onresize="updateSize" v-bind:animationSpeed="animationSpeed"/>
 
     </iv-visualisation>
