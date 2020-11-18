@@ -135,7 +135,7 @@ export default {
             let newPath = false;
 
             if(dx == undefined || dy == undefined){
-                            //make all orbit in circular orbits in same direction initially 
+                //make all orbit in circular orbits in same direction initially 
                 this.dx = 0;
                 this.dy = 0;
 
@@ -145,7 +145,7 @@ export default {
                 }
                 for(let i = 0; i < massCentres.length; i++){
                     this.dist = Math.pow(Math.pow(this.x-massCentres[i][0] , 2) + Math.pow(this.y-massCentres[i][1], 2), 0.5);
-                    this.dx += initialVel*massCentres[i][2]*Math.abs(Math.pow(this.dist , -2))*(massCentres[i][1]-this.y);
+                    //this.dx += initialVel*massCentres[i][2]*Math.abs(Math.pow(this.dist , -2))*(massCentres[i][1]-this.y);
                 }
             } else {
                 this.dx = dx;
@@ -561,9 +561,10 @@ export default {
         // [[x,y, mass]]
         //let massCentres = [[canvas.width/3, canvas.height/3], [2*canvas.width/3, canvas.height/3], [canvas.width/2, 2*canvas.height/3]];
         let massCentres = [[0, 0 , 100]];
-        let initialVel = 1;
 
-        ballArray.push(new Ball(canvas.width/5, canvas.height/5, 5, undefined, undefined));
+        let initialVel = Math.sqrt((canvas.width/5)/massCentres[0][2]);
+
+        ballArray.push(new Ball(canvas.width/5, 0, 5, undefined, undefined));
         for(let i = 0; i < ballArray.length; i++){
             ballArray[i].path();
         }
