@@ -524,7 +524,7 @@ export default {
                             if(i == 1){
                                 console.log('radial in');
                                 this.newdx += -this.buttonStep * Math.sin(this.tanAngle);
-                                this.newdy += -this.buttonStep * Math.cos(this.tanAngle);
+                                this.newdy += this.buttonStep * Math.cos(this.tanAngle);
                             }
                             if(i == 2){
                                 console.log('tangential in');
@@ -534,7 +534,7 @@ export default {
                             if(i == 3){
                                 console.log('radial out');
                                 this.newdx += this.buttonStep * Math.sin(this.tanAngle);
-                                this.newdy += this.buttonStep * Math.cos(this.tanAngle);
+                                this.newdy += -this.buttonStep * Math.cos(this.tanAngle);
                             }
                             console.log('arrow Press');
                             this.path(this.newdx, this.newdy);
