@@ -90,7 +90,7 @@ export default {
                 let Energy = findE();
                 
                 plotRadius = vm.pathVals[2] + 50;
-                let stepSize = plotRadius/200;
+                let stepSize = plotRadius/50;
 
                 for(let r = 0.1; r < plotRadius; r+= stepSize){
                     rVals.push(r);

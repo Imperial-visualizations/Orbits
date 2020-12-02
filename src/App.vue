@@ -32,23 +32,27 @@
         </iv-pane>
         <!-- <iv-toggle-hotspot id="iv-toggle-hotspot-bottomleft" position="bottomleft" title="BOTTOM LEFT"></iv-toggle-hotspot> -->
         <!-- <iv-toggle-hotspot id="iv-toggle-hotspot-topleft" position="topleft" title="TOP LEFT"></iv-toggle-hotspot> -->
-"
+
         <iv-toggle-hotspot id="iv-fixed-hotspot-bottom" position="bottom" title="Effective Potential">
             <EffPot ref="effPlot" />
         </iv-toggle-hotspot>
+
         <iv-fixed-hotspot id="iv-fixed-hotspot-topleft" position="topleft" title="Guidance" style="height: 0%">
           <p style="padding: 1rem; background-color: sky blue;">Click on the blue dot to change the orbit, or touch and drag on touchscreen.</p>
         </iv-fixed-hotspot>
-        <iv-fixed-hotspot id="iv-fixed-hotspot-topright" position="topright" title="PlayackControls" style="height: 40%;" transparent=true>
+
+        <iv-fixed-hotspot id="iv-fixed-hotspot-topright" position="topright" title="PlayackControls" style="height: 60%;" transparent=true>
           <label style="padding-top: 3%">Playback Speed</label>
           <iv-slider style="padding-top: 5%; height: 5vh;" min=0 max=50 step=1 @sliderChanged="playSpeed" init_val=1></iv-slider>
-          <!-- <iv-button>Reset Orbit</iv-button> -->
+
+          <iv-button @click="resetOrbit">Reset Orbit</iv-button>
         </iv-fixed-hotspot>
+
         <!-- <iv-fixed-hotspot id="iv-fixed-hotspot-right" position="right" title="RIGHT"></iv-fixed-hotspot> -->
         
       </template>
 
-      <Orbits @path-update="updatePlot" @position-update="updatePosition" @onresize="updateSize" v-bind:animationSpeed="animationSpeed"/>
+      <Orbits ref="orbits" @path-update="updatePlot" @position-update="updatePosition" @onresize="updateSize" v-bind:animationSpeed="animationSpeed"/>
 
     </iv-visualisation>
     <!-- <iv-guidance-system :guidance_branches_input="guidance_branch_list" /> -->
@@ -82,6 +86,9 @@ export default {
     },
     playSpeed(e){
       this.animationSpeed = e;
+    },
+    resetOrbit(){
+      this.$refs.orbits.circularOrbit();
     }
   },
   props:{

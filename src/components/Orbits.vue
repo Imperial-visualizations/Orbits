@@ -38,6 +38,9 @@ export default {
                 y: undefined
             }
         },
+        circularOrbitSet:{
+            default: false
+        }
     },
     methods: {
         touchOn(event){
@@ -72,12 +75,25 @@ export default {
         cancelSelect(){
             this.velocitySelect = false;
         },
+        circularOrbit(){
+            this.circularOrbitSet = true;
+        },
+        elipticalOrbit(){
+            this.elipticalOrbitSet = true;
+        },
+        parabolicOrbit(){
+            this.parabolicOrbitSet = true;
+        },
+        hyperbolicOrbit(){
+            this.hyperbolicOrbitSet = true; 
+        },
     },
     mounted(){
         let vm = this;
         let canvas = document.querySelector('canvas');
         let parent = document.getElementById('parent');
         let rect = parent.getBoundingClientRect();
+        let origCanvasWidth = parent.offsetWidth;
         let mouseX = null;
         let mouseY = null;
         let currentTouchX = null;
@@ -86,6 +102,7 @@ export default {
         let scale = 1;
 
 
+        //Deal with resizing on orbits component
         function resize(){
             canvas = document.querySelector('canvas');
             parent = document.getElementById('parent');
@@ -102,8 +119,7 @@ export default {
 
         resize();
         setTimeout(resize, 100);
-         
-         
+
 
         // let initialTouchX = this.initialTouchPos.x - rect.left;
         // let initialTouchY = this.initialTouchPos.y - rect.top;
@@ -173,7 +189,7 @@ export default {
                 let stepSize = 1;
                 this.closedPath = true;
                 let reverseMultiplier = 1;
-                this.maxIterations = 20000;
+                this.maxIterations = 5000;
                 console.log('path drawing');
 
                 while(Math.pow((Math.pow(this.x-currentPos[0], 2) + Math.pow(this.y-currentPos[1],2)),0.5) > 1 || iterations < 100){
@@ -553,24 +569,91 @@ export default {
                 }
             }
         }
-        
-        //let maxRadius = 30;
-        //let mouseRadius = 55;
-        let ballArray = [];
 
-        // [[x,y, mass]]
-        //let massCentres = [[canvas.width/3, canvas.height/3], [2*canvas.width/3, canvas.height/3], [canvas.width/2, 2*canvas.height/3]];
-        let massCentres = [[0, 0 , 100]];
 
-        let initialVel = Math.sqrt((canvas.width/5)/massCentres[0][2]);
 
-        ballArray.push(new Ball(canvas.width/5, 0, 5, undefined, undefined));
-        for(let i = 0; i < ballArray.length; i++){
-            ballArray[i].path();
+        //Check if orbit shape selection buttons have been pressed and change orbit to that
+        function orbitSelection(){
+            //Check if circular orbit has been selected and reset ball array if it has
+            if(vm.circularOrbitSet){
+
+                //Start in circular orbit
+                let initialVel = Math.sqrt(((origCanvasWidth)/5)/massCentres[0][2]);
+
+                ballArray = []
+
+                ballArray[0] = new Ball((origCanvasWidth)/5, 0, 5, undefined, undefined);
+                for(let i = 0; i < ballArray.length; i++){
+                    ballArray[i].path();
+                }
+
+                vm.circularOrbitSet = false;
+            }
+
+            //Check if elliptic orbit has been selected and reset ball array if it has
+            if(vm.elipticalOrbitSet){
+
+                //Start in elliptic orbit
+                let x = (origCanvasWidth)/5;
+                let initialVel = Math.sqrt((x/massCentres[0][2]))*1.2;
+                let dy = initialVel*massCentres[0][2]*Math.abs(Math.pow(x , -2))*(massCentres[0][0]-x);
+
+                ballArray = []
+
+                ballArray[0] = new Ball(x, 0, 5, 0, -dy);
+                for(let i = 0; i < ballArray.length; i++){
+                    ballArray[i].path();
+                }
+
+                vm.elipticalOrbitSet = false;
+            }
+
+            //Check if parabolic orbit has been selected and reset ball array if it has
+            if(vm.parabolicOrbitSet){
+
+                //Start in parabolic orbit
+                let x = (origCanvasWidth)/5;
+                //unexplained constant? who knows but it works
+                let initialVel = Math.sqrt(5800*massCentres[0][2]/(Math.pow(x,2)));
+                let dy = initialVel*massCentres[0][2]*Math.abs(Math.pow(x , -2))*(massCentres[0][0]-x);
+
+                ballArray = []
+
+                ballArray[0] = new Ball(x, 0, 5, 0, -dy);
+                for(let i = 0; i < ballArray.length; i++){
+                    ballArray[i].path();
+                }
+
+                vm.parabolicOrbitSet = false;
+            }
+
+            //Check if hyperbolic orbit has been selected and reset ball array if it has
+            if(vm.hyperbolicOrbitSet){
+
+                //Start in hyperbolic orbit
+                let x = (origCanvasWidth)/5;
+                let initialVel = Math.sqrt(7000*massCentres[0][2]/(Math.pow(x,2)));
+                let dy = initialVel*massCentres[0][2]*Math.abs(Math.pow(x , -2))*(massCentres[0][0]-x);
+
+                ballArray = []
+
+                ballArray[0] = new Ball(x, 0, 5, 0, -dy);
+                for(let i = 0; i < ballArray.length; i++){
+                    ballArray[i].path();
+                }
+
+                vm.hyperbolicOrbitSet = false;
+            }
         }
+
+
 
         function animate() {
             requestAnimationFrame(animate);
+
+            //Check if new orbit has been selected and update ball
+            orbitSelection();
+
 
             for (let i = 0; i < ballArray.length; i++){
 
@@ -620,6 +703,23 @@ export default {
             // c.fillStyle = 'Red';
             // c.fill();
             
+        }
+
+        //
+        //Initialise
+        // 
+
+        let ballArray = [];
+
+        // [[x,y, mass]]
+        let massCentres = [[0, 0 , 100]];
+
+        //Start in circular orbit
+        let initialVel = Math.sqrt((canvas.width/5)/massCentres[0][2]);
+
+        ballArray.push(new Ball(canvas.width/5, 0, 5, undefined, undefined));
+        for(let i = 0; i < ballArray.length; i++){
+            ballArray[i].path();
         }
 
         animate();
