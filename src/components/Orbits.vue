@@ -523,8 +523,8 @@ export default {
                             }
                             if(i == 1){
                                 console.log('radial in');
-                                this.newdx += this.buttonStep * Math.sin(this.tanAngle);
-                                this.newdy += this.buttonStep * Math.cos(this.tanAngle);
+                                this.newdx += -this.buttonStep * Math.sin(this.tanAngle);
+                                this.newdy += -this.buttonStep * Math.cos(this.tanAngle);
                             }
                             if(i == 2){
                                 console.log('tangential in');
@@ -533,8 +533,8 @@ export default {
                             }
                             if(i == 3){
                                 console.log('radial out');
-                                this.newdx += -this.buttonStep * Math.sin(this.tanAngle);
-                                this.newdy += -this.buttonStep * Math.cos(this.tanAngle);
+                                this.newdx += this.buttonStep * Math.sin(this.tanAngle);
+                                this.newdy += this.buttonStep * Math.cos(this.tanAngle);
                             }
                             console.log('arrow Press');
                             this.path(this.newdx, this.newdy);
@@ -637,7 +637,7 @@ export default {
 
                 ballArray = []
 
-                ballArray[0] = new Ball(x, 0, 5, 0, -dy);
+                ballArray[0] = new Ball(x, 0, 5, 0, -dy );
                 for(let i = 0; i < ballArray.length; i++){
                     ballArray[i].path();
                 }
