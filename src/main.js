@@ -1,10 +1,12 @@
 import Vue from 'vue';
 import App from './App.vue';
-import ImpVis from '@impvis/components';
+import ImpVis from '@impvis/components/dist/impvis-components.js';
 import '@impvis/components/dist/impvis-components.css';
 import titleMixin from './mixins/titleMixin'
+import impviskatex from '@impvis/components-katex'
 
 Vue.use(ImpVis);
+Vue.use(impviskatex);
 Vue.mixin(titleMixin);
 Vue.config.productionTip = false;
 Vue.config.silent = true; //surpress vue warnings
