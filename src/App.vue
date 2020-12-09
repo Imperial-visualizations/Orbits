@@ -1,6 +1,6 @@
 <template>
   <div id="app" style="overflow: hidden;">
-    <iv-visualisation title="Orbits" hotspotColumnHeight="25px">
+    <iv-visualisation title="Orbits" hotspotColumnHeight="25%">
       <template #hotspots>
         <iv-pane position="left" format="push">
             <iv-sidebar-content :showPagination="false" >
@@ -37,13 +37,11 @@
           <p style="padding: 1rem; background-color: sky blue;">Click on the blue dot to change the orbit, or touch and drag on touchscreen.</p>
         </iv-fixed-hotspot>
         
-        <iv-fixed-hotspot id="iv-fixed-hotspot-topright" position="topright" title="PlayackControls" glass>
-          <div style="height: 50%">
-            <label >Playback Speed</label>
-            <iv-slider min=0 max=50 step=1 @sliderChanged="playSpeed" init_val=1></iv-slider>
+        <iv-fixed-hotspot id="iv-fixed-hotspot-topright" position="topright" title="PlayackControls" transparent>
+          <label >Playback Speed</label>
+          <iv-slider min=0 max=50 step=1 @sliderChanged="playSpeed" init_val=1></iv-slider>
 
-            <iv-button @click="resetOrbit">Reset Orbit</iv-button>
-          </div>
+          <iv-button @click="resetOrbit" style="height:100%">Reset Orbit</iv-button>
         </iv-fixed-hotspot>
 
         <!-- <iv-fixed-hotspot id="iv-fixed-hotspot-right" position="right" title="RIGHT"></iv-fixed-hotspot> -->
