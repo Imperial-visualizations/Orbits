@@ -189,10 +189,10 @@ export default {
                 let stepSize = 1;
                 this.closedPath = true;
                 let reverseMultiplier = 1;
-                this.maxIterations = 5000;
+                this.maxIterations = 10000;
                 console.log('path drawing');
 
-                while(Math.pow((Math.pow(this.x-currentPos[0], 2) + Math.pow(this.y-currentPos[1],2)),0.5) > 1 || iterations < 100){
+                while(Math.pow((Math.pow(this.x-currentPos[0], 2) + Math.pow(this.y-currentPos[1],2)),0.5) > 2 || iterations < 100){
 
                     currentPos[0] += currentVel[0] * reverseMultiplier * stepSize;
                     currentPos[1] += currentVel[1] * reverseMultiplier * stepSize;
